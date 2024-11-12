@@ -1,0 +1,79 @@
+﻿@model IEnumerable<K22CNT3_PhamThanhDat_2210900007_Pj2.Models.PTD_CartItem>
+
+@{
+    ViewBag.Title = "Thông tin giỏ hàng";
+}
+
+@using (Html.BeginForm("UpdateFromCart", "PTDCart"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-8">
+            <h2>@ViewBag.Title</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.ID)</th>
+                        <th>@Html.DisplayNameFor(model => model.TenSanPham)</th>
+                        <th>@Html.DisplayNameFor(model => model.HinhAnh)</th>
+                        <th>@Html.DisplayNameFor(model => model.SoLuongMua)</th>
+                        <th>@Html.DisplayNameFor(model => model.DonGiaMua)</th>
+                        <th>@Html.DisplayNameFor(model => model.ThanhTien)</th>
+                        <th>Chức năng</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ID)
+                                @Html.HiddenFor(modelItem => item.ID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TenSanPham)
+                            </td>
+                            <td>
+                                <img src="@item.HinhAnh" style="width:50px" alt="@item.TenSanPham">
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => item.SoLuongMua, new { @class = "form-control", type = "number", data_id = item.ID, id = "SoLuongMua_" + item.ID, style = "width:50px" })
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DonGiaMua)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ThanhTien)
+                            </td>
+                            <td>
+                                <a href="/ptdcart/UpdateItemCart?id=@item.ID&qty=@item.SoLuongMua" class="btn btn-outline-success update">
+                                    Cập nhật
+                                </a>
+                                <a href="/ptdcart/DeleteItemCart?id=@item.ID" class="btn btn-outline-danger">
+                                    Xóa
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <a href="/PTDCart/ThongTinThanhToan" class="btn btn btn-success">Thanh toán </a>
+            <button type="submit" class="btn btn-outline-primary mx-2">Cập nhật giỏ hàng</button>
+        </div>
+    </div>
+}
+
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("input[type='number']").change(function () {
+                let id = $(this).attr("data_id");
+                let qty = $(this).val();
+              
+            });
+        });
+    </script>
+}
